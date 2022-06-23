@@ -1,0 +1,81 @@
+body {
+  margin-top: 5em;
+}
+
+.email-preview {
+  margin-bottom: 1ex;
+}
+.email-preview pre {
+  white-space: pre-wrap;
+}
+
+h1 {
+    font-size: 2.8rem;
+}
+
+h2 {
+    font-size: 2.2rem;
+    padding-top: 10px;
+}
+
+h3 {
+    font-size: 1.7rem;
+    padding-top: 10px;
+}
+// Django automatically applies a 'helptext' class in forms;
+// Bootstrap wants us to use other classes instead; so we
+// let SCSS wire one to the other.
+.helptext {
+  @extend .form-text;
+  @extend .text-muted;
+}
+
+.errorlist {
+  @extend .bg-danger;
+  @extend .text-light;
+}
+
+//
+// Navbar
+.navbar-brand {
+  padding: 0;
+
+  img {
+    width: 180px;
+  }
+}
+
+.navbar-dark .navbar-toggler,
+.navbar-dark .navbar-nav .nav-link {
+  color: white;
+  border-color: rgba(255,255,255,.75);
+}
+
+:target:before { // Offset for anchor link jumping
+  content: "";
+  display: block;
+  height: 70px;
+  margin: -70px 0 0;
+}
+
+//
+// Footer
+.footer-art {
+  background: url(static("css/img/footer-balloons.png")) no-repeat bottom right;
+  height: 160px;
+}
+
+.footer-grass {
+  background: url(static("css/img/footer-grass.png"));
+  height: 39px;
+}
+
+.footer-wrapper {
+  // This color matches the footer-grass background.
+  background-color: #d1d8cd;
+  overflow: auto;
+}
+
+.cc-description {
+  font-size: $font-size-sm;
+}

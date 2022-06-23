@@ -1,0 +1,34 @@
+{# https://docs.djangoproject.com/en/1.11/topics/auth/default/#django.contrib.auth.views.LoginView #}
+{% extends "base.html" %}
+
+{% block title %}
+Log in
+{% endblock %}
+
+{% block content %}
+<h1>Log in</h1>
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<h2>New Account</h2>
+<p>Don't have an account? You can create a new one.</p>
+<p><a href="{% url 'register' %}?next={{ next|urlencode }}" class="btn btn-success">Create Account</a></p>
+
+<h2>Existing Account</h2>
+<p>Please note the login form accepts only usernames, not email addresses. The account verification email will contain your username.</p>
+<form method="post" action="">
+{% csrf_token %}
+{{ form.as_p }}
+<p><input type="submit" class="btn btn-success" value="Login" /></p>
+</form>
+
+<p><a href="{% url 'password_reset' %}" class="btn btn-secondary">Forgot your password?</a></p>
+
+{% endblock %}
