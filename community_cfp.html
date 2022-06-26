@@ -1,0 +1,145 @@
+{% extends "base.html" %} 
+{% block title %}
+Call for Outreachy community coordinators and mentors
+{% endblock %}
+
+{% block content %}
+
+<p><a href="{% url 'community-cfp' %}">Timeline and FAQ for Outreachy Communities</a></p>
+
+{% if current_round.project_soft_deadline.has_passed %}
+	{% include "home/snippet/cfp_closed_warning.html" %}
+{% endif %}
+
+<h1>Call for Outreachy Community Participation</h1>
+
+<div class="card border-info mb-3" id="NewStatus">
+	<div class="card-header text-white bg-info" >Community CFP status</div>
+	<div class="card-body">
+		{% if current_round.project_soft_deadline.has_passed %}
+			<p class="card-text">
+			🛑 The Outreachy CFP is closed to new community participation applications.</p>
+			<p class="card-text">
+			🛑 The Outreachy CFP is closed for mentors to submit new projects.</p>
+
+			<p class="card-text">Please sign up for the
+			<a href="https://lists.outreachy.org/cgi-bin/mailman/listinfo/announce">Outreachy announcement list</a>
+			to receive a notification for next round.</p>
+			<p class="card-text">
+			🚨 <b>Outreachy applicants</b> - This page is not the page you're looking for! Please go to the <a href="{% url 'project-selection' %}">list of communities for applicants</a>.</p>
+		{% elif current_round.lateorgs.has_passed %}
+			<p class="card-text">🛑 The Outreachy CFP is closed for new community participation applications.</p>
+			<p class="card-text">👋🏽 Mentors are welcome to submit internship projects to participating communities. The <b>Project submission deadline: {{ current_round.project_soft_deadline }} at 4pm UTC</b>.</p>
+
+			<p class="card-text">Please sign up for the
+			<a href="https://lists.outreachy.org/cgi-bin/mailman/listinfo/announce">Outreachy announcement list</a>
+			to receive a notification for next round.</p>
+			<p class="card-text">
+			🚨 <b>Outreachy applicants</b> - This page is not the page you're looking for! This page is only for mentors and coordinators. Please go to the <a href="{% url 'project-selection' %}">list of communities for applicants</a>.</p>
+		{% else %}
+			<p class="card-text">👋🏿 New communities are welcome to fill out a participation application. <b>Community application deadline: {{ current_round.lateorgs }} at 4pm UTC</b>.</p>
+			<p class="card-text">👋🏽 Mentors are welcome to submit internship projects to participating communities. <b>Project submission deadline: {{ current_round.project_soft_deadline }} at 4pm UTC</b>.</p>
+			<p class="card-text">
+			🚨 <b>Outreachy applicants</b> - This page is not the page you're looking for! Please go to the <a href="{% url 'project-selection' %}">list of communities for applicants</a>.</p>
+		{% endif %}
+	</div>
+</div>
+
+<h2>What is Outreachy?</h2>
+
+<p>Outreachy's goal is to support <a href="/apply/eligibility/">diversity in open source.</a> Outreachy provides paid, remote internships.</p>
+
+<p>Outreachy invites free and open source software communities to participate.</p>
+
+<p><a class='btn btn-info' href="{% url 'docs-community' %}">Read Community Guide</a></p>
+
+{% if current_round %}
+	<h2>Timeline for {{ current_round.internstarts|date:"F Y" }} cohort</h2>
+	{% include "home/snippet/mentor-timeline.html" %}
+
+	{% if approved_communities or pending_communities %}
+		<h2>Mentor for Outreachy</h2>
+		{% if current_round.project_soft_deadline.has_passed %}
+			{% include "home/snippet/cfp_closed_warning.html" %}
+		{% else %}
+			<p>Outreachy is seeking experienced open source contributors to act as mentors for Outreachy interns. Mentors should review the mentor guide before they submit a project.</p>
+
+			<p><a class='btn btn-info' href="/mentor/#mentor">Read Mentor Guide</a></p>
+		{% endif %}
+	{% endif %}
+{% else %}
+	<h2>Timeline for Participating FOSS Communities</h2>
+	{% include "home/snippet/generic_mentor_coordinator_timeline.html" %}
+{% endif %}
+
+{% if approved_communities %}
+	<h3>Mentoring Communities</h3>
+
+	<p>The following open source communities are participating in the {{ current_round.internstarts|date:"F Y" }} internship round. Follow the link to sign up to mentor for that community:</p>
+
+	<ul>
+	{% for c in approved_communities %}
+		<li><a href="{{ c.get_preview_url }}">{{ c.name }}</a></li>
+	{% endfor %}
+	</ul>
+{% endif %}
+
+{% if pending_communities %}
+	{% if current_round.project_soft_deadline.has_passed %}
+		<p><b>Not participating</b> These communities applied to participating in this Outreachy internship round,
+		however, they have not been approved.</p>
+	{% else %}
+		<p><b>Pending communities:</b> These communities applied to participate in the {{ current_round.internstarts|date:"F Y" }} cohort. Mentors are encouraged to submit projects while the community is under review.</p>
+	{% endif %}
+	<ul>
+	{% for c in pending_communities %}
+		<li><a href="{{ c.get_preview_url }}">{{ c.name }}</a></li>
+	{% endfor %}
+	</ul>
+{% endif %}
+
+{% if rejected_communities %}
+	<h2>Not Participating FOSS Communities</h2>
+
+	<p>Unfortunately, either the community coordinator(s) or the Outreachy organizers have determined that the following communities will not participate in this round of Outreachy internships.</p>
+
+	<ul>
+	{% for c in rejected_communities %}
+		<li><a href="{{ c.get_preview_url }}">{{ c.name }}</a></li>
+	{% endfor %}
+	</ul>
+{% endif %}
+
+<h2 id="past-communities">Past Communities</h2>
+
+<p>These communities have participated in past rounds, or submitted an application to participate. Coordinators can sign the community up to participate again.</p>
+
+<p>Mentors can receive an email when a community signs up to participate. To get an email notification, visit the community pages linked below.</p>
+
+<ul>
+{% for c in not_participating_communities %}
+	<li><a href="{{ c.get_preview_url }}">{{ c.name }}</a></li>
+{% endfor %}
+</ul>
+
+{% if current_round and current_round.pingnew.has_passed and not current_round.lateorgs.has_passed %}
+	<h2>New communities</h2>
+
+	<p>Please read the community participation guide before submitting a new community application.</p>
+	<p><a class='btn btn-info' href="{% url 'docs-community' %}">Read Community Guide</a></p>
+
+	<p>New communities can submit an application to participate in Outreachy.</p>
+
+	<p>Check to see if your community is listed in the <a href="#past-communities">past communities list</a>. If it is, don't submit a new community application. Instead, follow the community link and sign up to coordinate for the community. Otherwise, submit a new application for your community to participate in Outreachy.</p>
+
+	<p><a class='btn btn-success' href="{% url 'community-participation-rules' %}">Submit community application</a></p>
+{% endif %}
+
+<h2>Questions?</h2>
+
+<p>First, see if your question is answered in the <a href="{% url 'docs' %}">community participation guide</a>.</p>
+
+<p>Then let us know what questions you have! You can <a href="{% url 'contact-us' %}">contact Outreachy organizers</a> with your questions.</p>
+
+
+{% endblock %}

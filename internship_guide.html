@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}
+Internship Guide | Outreachy Documentation
+{% endblock %}
+
+{% block content %}
+
+<p><a href='{% url 'docs' %}'>← back to Outreachy documentation</a></p>
+<h1>Outreachy Internship Guide</h1>
+
+<div id="Newborder">
+<h2 id='toc'>Table of Contents</h2>
+<ol>
+	<li><a href='#time-commitment'>Internship Time Commitment</a></li>
+	<li><a href='#mentor-expectations'>Mentor Expectations</a></li>
+	<li><a href='#career-development'>Career Development</a></li>
+	<li><a href='#payments'>Payments</a></li>
+	<li><a href='#blog'>Blogging</a>
+		<ul>
+			<li><a href="#blog-week-1">Blog Week 1: Introduce yourself</a></li>
+		</ul>
+	</li>
+	<li><a href='#blogging-faq'>Blogging FAQ</a></li>
+	<li><a href='#chats'>Chats with interns, mentors, and alums</a>
+		<ul>
+			<li><a href='#week-1-chat'>Week 1 chat: Tips for remote work</a></li>
+			<li><a href='#week-5-chat'>Week 5 chat: Conferences</a></li>
+		</ul>
+	</li>
+</ol>
+</div>
+
+<hr>
+<h2 id='time-commitment'><a href='#time-commitment'>Internship Time Commitment</a></h2>
+
+<p>Your project should be your primary focus during your internship. Unless contrary to any laws where you are located, you should dedicate 30 hours per week to your project for at least 12 weeks of the Outreachy internship's 13 week duration.</p>
+
+<p>Outreachy understands that interns may be temporarily interrupted from working on their project. You may get sick or have to deal with extreme weather. You may have a power outage or internet outage. Your computer may break down. You may want to spend time with your family on during a holiday or vacation.</p>
+
+<p>As stated above, we expect interns to work 30 hours a week for at least 12 weeks of the 13 week internship. Please let your mentor know if you are not working on the project for a short period of time.</p>
+
+<p>Rarely, interns work less than full-time, or cannot work for all 12 weeks. In that case, interns will need to arrange an internship extension with their mentor. Mentors recommend interns for extensions at the initial, mid-point, and final feedback dates. Outreachy organizers will confirm the extension with interns and mentors via email.</p>
+
+<p>Internships can be extended for up to five weeks. Internships cannot be extended for more than 5 weeks. We cannot allow an internship to be stopped and then later restarted.</p>
+
+<p>When an internship is extended, the feedback dates and payment dates will be shifted by the amount of the internship extension.</p>
+
+<p><a href='#toc'><u>↑ table of contents</u></a></p>
+<hr>
+<h2 id='mentor-expectations'><a href='#mentor-expectations'>Mentor Expectations</a></h2>
+
+<p>Outreachy mentors should provide:</p>
+<ul>
+	<li>A project for the intern to work on</li>
+	<li>5 hours per week of mentoring - including answering questions, reviewing contributions, and meeting with interns</li>
+	<li>A real-time meeting at least once a week - either through real-time chat, video conference, or phone</li>
+	<li>Detailed and timely review of contributions - if a mentor is unable to provide contribution review, they are responsible for finding community members who can</li>
+	<li>Guidance to interns about how to work in an open source community</li>
+	<li>Guidance to interns about time management</li>
+</ul>
+
+<p>If your mentor is not meeting the above expectations, please <a href="{% url 'contact-organizers' %}">contact the Outreachy organizers</a>.</p>
+
+<p>Outreachy mentors are focused on helping interns complete their project. Some mentors provide career advice or help connecting to the larger open source community, but it is not required for mentors to do so. Please see the career development section below.</p>
+
+<p><a href='#toc'><u>↑ table of contents</u></a></p>
+<hr>
+<h2 id='career-development'><a href='#career-development'>Career Development</a></h2>
+
+<p>Outreachy is working to improve the career development services we offer interns. We currently offer a very limited set of career development opportunities:</p>
+
+<ul>
+	<li>Resume review</li>
+	<li>Encouragement to conduct informational chats with open source professionals during week 9 of the internship</li>
+</ul>
+
+<p>An Outreachy internship is not a guarantee that you will find a job with an Outreachy sponsor. Some applicants pick their internship because they want to network with open source contributors who work for a particular company. However, you may end up working with open source contributors who are volunteers or work for other companies. Outreachy interns should be open to networking and working with all open source contributors, regardless of who they work for.</p>
+
+<p><a href='#toc'><u>↑ table of contents</u></a></p>
+<hr>
+<h2 id='payments'><a href='#payments'>Payments</a></h2>
+
+<p>Outreachy interns are paid $7,000 USD total for three months of work. The stipend is paid in two payments:</p>
+<ul>
+	{% if applicant_round %}
+		<li>${{ applicant_round.initialpayment|intcomma }} initial stipend</li>
+		<li>${{ applicant_round.finalpayment|intcomma }} final stipend</li>
+	{% elif intern_round %}
+		<li>${{ intern_round.initialpayment|intcomma }} initial stipend</li>
+		<li>${{ intern_round.finalpayment|intcomma }} final stipend</li>
+	{% else %}
+		<li>$3,000 initial stipend</li>
+		<li>$4,000 final stipend</li>
+	{% endif %}
+</ul>
+
+<p>The stipend is paid after organizers receive successful feedback from the project mentor. Interns will be required to fill out tax forms (either a W8-BEN or a W-9) in order to be paid. If tax forms or payment routing information are turned in after the tax form deadline, the initial payment may be delayed.</p >
+
+{% if applicant_round %}
+	<p><b>{{ applicant_round.internstarts|date:'M Y' }} internships payment schedule:</b></p>
+
+	{% with current_round=applicant_round %}
+		{% include 'home/snippet/payment_schedule.html' %}
+	{% endwith %}
+{% endif %}
+
+{% if intern_round %}
+	<p><b>{{ intern_round.internstarts|date:'M Y' }} internships payment schedule:</b></p>
+
+	{% with current_round=intern_round %}
+		{% include 'home/snippet/payment_schedule.html' %}
+	{% endwith %}
+{% endif %}
+
+<p><a href='#toc'><u>↑ table of contents</u></a></p>
+<hr>
+
+<h2 id='blog'><a href='#blog'>Blogging</a></h2>
+
+<p>Interns are required to blog every two weeks about their internship.</p>
+
+<p>The Outreachy organizers will provide blog post prompts via email. Once interns receive the email, they will have two weeks to write the blog post. If an intern gets behind on blog posts, it's okay to publish the blogs up to 1 week later. Otherwise, move onto writing a blog post for the most recent blog post prompt.</p>
+
+<h3>Blogging schedule</h3>
+
+<p>The Outreachy organizers will send blog prompts on the following dates:</p>
+
+{% if applicant_round %}
+	{% with current_round=applicant_round %}
+		<table class="table">
+			<tr><th width="175">{{ current_round.internship_week_1_email_date }}</th><td>Blog prompt: <a href="#blog-week-1">"Introduce yourself"<a/></td></tr>
+			<tr><th>{{ current_round.internship_week_3_email_date }}</th><td>Blog prompt: "Everybody struggles"</td></tr>
+			<tr><th>{{ current_round.internship_week_5_email_date }}</th><td>Blog prompt: "Think about your audience"</td></tr>
+			<tr><th>{{ current_round.internship_week_7_email_date }}</th><td>Mid-point project progress blog post</td></tr>
+			<tr><th>{{ current_round.internship_week_9_email_date }}</th><td>Blog prompt: "Career opportunities"</td></tr>
+			<tr><th>{{ current_round.internship_week_11_email_date }}</th><td>No blog post - interns work on their resume</td></tr>
+			<tr><th>{{ current_round.internship_week_13_email_date }}</th><td>Final project progress blog post</td></tr>
+		</table>
+	{% endwith %}
+{% endif %}
+
+{% if intern_round %}
+	{% with current_round=intern_round %}
+		<table class="table">
+			<tr><th width="175">{{ current_round.internship_week_1_email_date }}</th><td>Blog prompt: <a href="#blog-week-1">"Introduce yourself"</a></td></tr>
+			<tr><th>{{ current_round.internship_week_3_email_date }}</th><td>Blog prompt: "Everybody struggles"</td></tr>
+			<tr><th>{{ current_round.internship_week_5_email_date }}</th><td>Blog prompt: "Think about your audience"</td></tr>
+			<tr><th>{{ current_round.internship_week_7_email_date }}</th><td>Mid-point project progress blog post</td></tr>
+			<tr><th>{{ current_round.internship_week_9_email_date }}</th><td>Blog prompt: "Career opportunities"</td></tr>
+			<tr><th>{{ current_round.internship_week_11_email_date }}</th><td>No blog post - interns work on their resume</td></tr>
+			<tr><th>{{ current_round.internship_week_13_email_date }}</th><td>Final project progress blog post</td></tr>
+		</table>
+	{% endwith %}
+{% endif %}
+
+<h3 id="blog-week-1"><a href="#blog-week-1">Blog Week 1: Introduce yourself</a></h3>
+<!-- Please keep the blog prompt in sync with the email text in home/templates/home/email/internship-week-1.txt -->
+
+<p><b>Blog prompt</b></p>
+<p>In your first internship blog post, you should:</p>
+
+<ol>
+	<li>Introduce yourself.</li>
+	<li>Pick 1-3 <a href="https://jamesclear.com/core-values">core values</a>, and talk about why they are important to you.</li>
+	<li>Tell people what motivated you to apply to Outreachy.</li>
+</ol>
+
+<p>See the <a href="#blog-length">blog faq</a> for suggested blog post length.</p>
+
+<p><b>Core values</b></p>
+
+<p>Core values are important personality traits. Core values motivate you when you make decisions. Here's a <a href="https://jamesclear.com/core-values">list of some core values</a>.</p>
+
+<p>For example, if the Outreachy organizer Sage Sharp were to talk about their core values, they would say:</p>
+
+<div class="card p-2 m-4" id="Imgborder">
+	<div class="card-body">
+		<p class="card-text">"My core values are curiosity, growth, and compassion.</p>
+
+		<p class="card-text">I value curiosity. I always want to know how something works. I'm also curious about why things are built a particular way.</p>
+
+		<p class="card-text">Once I understand the how and why, I want to optimize and improve it. That's why I value growth. I want to be a better person. I want to help the world be a better place.</p>
+
+		<p class="card-text">I also value compassion. I want to support and understand people. I'm always curious about other people's lived experiences."</p>
+
+	</div>
+</div>
+
+<p>Your values may be very different from Sage's. Maybe you're ambitious, you want to be a leader, and you want to influence others. Or maybe you value security, loyalty, and stability. That's great! You should write about the core values that resonate with you.</p>
+
+<p>Pick 1 to 3 <a href="https://jamesclear.com/core-values">core values</a>. Talk about why they are important to you.</p>
+
+<p><a href='#toc'><u>↑ table of contents</u></a></p>
+<hr>
+
+<h2 id="blogging-faq">Blogging FAQ</h2>
+
+<h3>Where should I create a blog?</h3>
+
+<p>Outreachy organizers recommend creating a blog that runs on free software. Our recommendations is to use <a href="https://wordpress.com/">Wordpress</a> or <a href="http://www.dreamwidth.org">Dreamwidth</a>.
+
+<p>It can be tempting to use static site generators to create your own blog. However, interns often spend too much time configuring their blog than working on their project.</p>
+
+<p>Outreachy organizers do not recommend using proprietary social media blogs, such as Medium or Tumblr. If your community already has a blog on Medium and wants you to post progress reports to that blog, that's is okay. However, you will still need your own blog to publish other posts on.</p>
+
+<p>Please update your profile https://www.outreachy.org/account/ with a link to both the URL for your blog, and the RSS feed for your blog. For the RSS feed, you can specify either the entire blog feed, or a specific feed you want to be aggregated. Some interns add the RSS feed for their "outreachy" tag on their blog, so they can also blog about personal things.</p>
+
+<h3>How long should a blog post take to write?</h3>
+
+<p>Blog posts don't need to be perfect! You shouldn't spend more than 1-3 hours on the post. Your mid-point and final project progress blog post may take longer than your other blog posts. Blogging shouldn't take priority over working on your internship project.</p>
+
+<h3 id="blog-length">How much should I write?</h3>
+
+<p>A good rule of thumb is that blog posts should take about 3 to 5 minutes to read. If it takes longer than that, you may want to break up it up into multiple blog posts.</p>
+
+<h3>What if I don't want to use the blog post prompt?</h3>
+
+<p>That's fine! The blog post prompts are designed to give inspiration for interns to write. If you don't like the blog post prompt, or it doesn't apply to you, write something else. You can give a status update on your project instead. Or you could talk about something you're stuck on. Or you could introduce a new tool or skill you learned. Or you could talk about what it's like to work in your free software community.</p>
+
+<p>If your mentor has a different topic in mind, you can blog about that instead of using the blog post prompts.<p>
+
+<p>You're still required to blog every two weeks. The goal is to share your experiences during the internship, and your progress on your project. Even a short update (a paragraph or two) is good.</p>
+
+<h3>Do I have to answer all the blog post prompt questions?</h3>
+
+<p>The blog post prompts often include a series of questions. You don't have to answer every question in the prompt. You can pick and choose which questions are most interesting to you. The goal is to inspire you to write a blog post, not to dictate exactly what you should talk about.</p>
+
+<h3>How should I promote my blog?</h3>
+
+<p>You're welcome to post a link to your blog on Twitter. If you tag @outreachy, we'll retweet your post. It's best if you include a description of your blog post that would make sense to someone who isn't familiar with Outreachy.</p>
+
+<p>Examples:</p>
+<ul>
+	<li>"Want a remote internship working on free software? Read my blog post on how I got an @outreachy internship with Public Lab: URL".</li>
+	<li>"I'm an @outreachy intern with Wikimedia on PROJECT. Read more about my challenges during my first 3 weeks: URL"</li>
+	<li>"My @outreachy internship with Debian is half-way done! Read about the progress I've made on PROJECT: URL".</li>
+</ul>
+
+<p>Ask your mentor if there are other community forums you should post your blog entries to. Some communities aggregate member's blog posts into one page. Your blog may need to have an RSS feed to be included in the community blog aggregate page.</p>
+
+<p><a href='#toc'><u>↑ table of contents</u></a></p>
+<hr>
+
+<h2 id='chats'><a href='#chats'>Chats with interns, mentors, and alums</a></h2>
+
+<p>Every two weeks, Outreachy interns, mentors, and alums will have an informal chat on the private Outreachy Zulip chat server. The goal of these chats is to encourage the interns to connect with each other.<p>
+
+<p>We encourage you to honestly share your experiences. We are all learning, and no one will judge you. We especially encourage you to participate if you're shy. You may make some new friends or find a new support group!</p>
+
+<p>You may not be able to make the chat because of your timezone. If so, it's okay to read through the log and comment later.</p>
+
+<p>Interns will receive an invitation to the Outreachy Zulip chat once interns are announced. The login will expire in a week. If you need us to send another invitation, email the Outreachy organizers.</p>
+
+<h3>Chat schedule</h3>
+
+{% if applicant_round %}
+	{% with current_round=applicant_round %}
+		<table class="table">
+			<tr><th width="250">{{ current_round.week_two_chat_text_date }} UTC</th><td>Tips for remote work</td></tr>
+			<tr><th>{{ current_round.week_four_chat_text_date }} UTC</th><td>Share something you're stuck on</td></tr>
+			<tr><th>{{ current_round.week_six_chat_text_date }} UTC</th><td>Open source conferences (Alums invited!)</td></tr>
+			<tr><th>{{ current_round.week_eight_chat_text_date }} UTC</th><td>Share one "easy" project goal that took longer than expected</td></tr>
+			<tr><th>{{ current_round.week_ten_chat_text_date }} UTC</th><td>Advancing your career (Alums invited!)</td></tr>
+			<tr><th>{{ current_round.week_twelve_chat_text_date }} UTC</th><td>Networking skills</td></tr>
+			<tr><th>{{ current_round.week_fourteen_chat_text_date }} UTC</th><td>Internship wrap up chat</td></tr>
+		</table>
+	{% endwith %}
+{% endif %}
+
+{% if intern_round %}
+	{% with current_round=intern_round %}
+		<table class="table">
+			<tr><th width="250">{{ current_round.week_two_chat_text_date }} UTC</th><td>Tips for remote work</td></tr>
+			<tr><th>{{ current_round.week_four_chat_text_date }} UTC</th><td>Share something you're stuck on</td></tr>
+			<tr><th>{{ current_round.week_six_chat_text_date }} UTC</th><td>Open source conferences (Alums invited!)</td></tr>
+			<tr><th>{{ current_round.week_eight_chat_text_date }} UTC</th><td>Share one "easy" project goal that took longer than expected</td></tr>
+			<tr><th>{{ current_round.week_ten_chat_text_date }} UTC</th><td>Advancing your career (Alums invited!)</td></tr>
+			<tr><th>{{ current_round.week_twelve_chat_text_date }} UTC</th><td>Networking skills</td></tr>
+			<tr><th>{{ current_round.week_fourteen_chat_text_date }} UTC</th><td>Internship wrap up chat</td></tr>
+		</table>
+	{% endwith %}
+{% endif %}
+
+<p><a href='#toc'><u>↑ table of contents</u></a></p>
+<hr>
+
+<a href="#week-1-chat"><h3 id="week-1-chat">Week 1 chat: Tips for remote work</h3></a>
+
+<p>We will be talking about how to effectively work remotely! We understand many interns (and some mentors) will be new to working remotely. This is your chance to learn more.</p>
+
+<p>We invite people who are new to collaborating remotely to bring your concerns and questions. We invite people who are experienced in collaborating remotely to answer questions and give tips.</p>
+
+<p>Topics for this conversation may include:</p>
+<ul>
+	<li>effective remote communication</li>
+	<li>how to deal with timezone differences</li>
+	<li>how a daily stand up works</li>
+	<li>what to expect from a weekly video or phone chat between interns and mentors</li>
+	<li>tools for collaborating effectively</li>
+	<li>setting up your work space and work schedule</li>
+	<li>work-life balance</li>
+</ul>
+<p><a href='#toc'><u>↑ table of contents</u></a></p>
+<hr>
+
+<a href="#week-5-chat"><h3 id="week-5-chat">Week 5 chat: Open source conferences</h3></a>
+
+<p>We will be discussing open source conferences. Conferences and events are a big part of free software and open source culture!</p>
+
+<p>If you haven't been to an open source conference before, come to our chat to learn more. If you have been to an open source conference before, come to our chat to share your experiences and tips.</p>
+
+<p>Topics for this conversation may include:</p>
+<ul>
+	<li>what you can get out of a conference</li>
+	<li>conference vocabulary and jargon</li>
+	<li>different types of event formats</li>
+	<li>funds to cover conference cost and travel</li>
+	<li>ways to network at conferences: exhibitor booths, hackathons/sprints, "birds of a feather" sessions, "hallway track"</li>
+	<li>ways to speak at conferences: lightning talks, short talks, tutorials, the "call for proposals/speakers" process, and new speaker coaching</li>
+</ul>
+
+<p>Anyone who has been to an open source conference is welcome to share their tips for getting the most out of conferences. Anyone is welcome to share information about open source conferences they know about.</p>
+
+<p><a href='#toc'><u>↑ table of contents</u></a></p>
+<hr>
+{% endblock %}
